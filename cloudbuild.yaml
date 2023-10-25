@@ -1,0 +1,31 @@
+steps:
+  - id: build-api
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        docker build -t gcr.io/salmonping/salmonping-ruby-api:main .
+        docker push gcr.io/salmonping/salmonping-ruby-api:main
+  - id: deploy-api
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        gcloud run deploy salmonping-ruby --image gcr.io/salmonping/salmonping-ruby-api:main \
+          --allow-unauthenticated \
+          --concurrency 16 \
+          --cpu 1 \
+          --set-env-vars RACK_ENV=production \
+          --max-instances 1 \
+          --memory 128Mi \
+          --min-instances 0 \
+          --region=asia-southeast1 \
+          --service-account salmonping@salmonping.iam.gserviceaccount.com \
+          --set-secrets NOTIFICATION_SECRET_KEY=salmonping_GOFOOD_NOTIFICATION_SECRET_KEY:latest \
+          --tag=main \
+          --timeout 15s \
+          --update-labels service=salmonping
+options:
+  logging: CLOUD_LOGGING_ONLY
