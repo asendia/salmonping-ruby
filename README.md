@@ -38,3 +38,6 @@ curl  -X POST \
   --header 'Content-Type: application/json' \
   --data-raw '{}'
 ```
+
+## Deployment
+This example is deployed to GCP, see cloudbuild.yaml

@@ -21,7 +21,7 @@ steps:
           --max-instances 1 \
           --memory 128Mi \
           --min-instances 0 \
-          --region=asia-southeast1 \
+          --region=asia-southeast2 \
           --service-account salmonping@salmonping.iam.gserviceaccount.com \
           --set-secrets NOTIFICATION_SECRET_KEY=salmonping_GOFOOD_NOTIFICATION_SECRET_KEY:latest \
           --tag=main \
